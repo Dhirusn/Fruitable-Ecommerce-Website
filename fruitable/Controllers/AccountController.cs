@@ -19,7 +19,16 @@ namespace Fruitable.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            var model = new LoginViewModel();
+
+            // Retrieve cookies if they exist
+            if (Request.Cookies.ContainsKey("UserEmail"))
+            {
+                model.Email = Request.Cookies["UserEmail"];
+                model.RememberMe = Request.Cookies["RememberMe"] == "True";
+            }
+
+            return View(model);
         }
 
         [HttpPost]
@@ -30,6 +39,16 @@ namespace Fruitable.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
+                    // Set cookies for Email and RememberMe
+                    if (model.RememberMe)
+                    {
+                        var options = new CookieOptions
+                        {
+                            Expires = DateTime.Now.AddDays(30) // Expires after 30 days
+                        };
+                        Response.Cookies.Append("UserEmail", model.Email, options);
+                        Response.Cookies.Append("RememberMe", model.RememberMe.ToString(), options);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");

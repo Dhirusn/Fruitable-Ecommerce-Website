@@ -1,4 +1,4 @@
-using Fruitable.Models;
+using Fruitable.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

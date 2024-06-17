@@ -1,4 +1,4 @@
-namespace Fruitable.Models
+namespace Fruitable.ViewModels
 {
     public class ErrorViewModel
     {

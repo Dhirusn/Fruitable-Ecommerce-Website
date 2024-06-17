@@ -3,6 +3,9 @@
 *@
 @{
 }
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <!-- Navbar start -->
 <header>
     <div class="container-fluid fixed-top">
@@ -47,9 +50,31 @@
                             <i class="fa fa-shopping-bag fa-2x"></i>
                             <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                         </a>
-                        <a href="#" class="my-auto">
+
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" class="my-auto">
                             <i class="fas fa-user fa-2x"></i>
                         </a>
+                        <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <!-- Code to show when the user is logged in -->
+                                <a class="dropdown-item">
+                                    <span class="block bold">@UserManager.GetUserName(User)</span><br />
+                                    <span class="block italic"></span>
+                                </a>
+                                <a asp-controller="User" asp-action="UserProfile" class="dropdown-item">Account</a>
+                                <a asp-controller="Account" asp-action="Settings" class="dropdown-item">Settings</a>
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="dropdown-item">
+                                    <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Log-out</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" class="dropdown-item">Login</a>
+                            }
+                        </div>
                     </div>
                 </div>
             </nav>

@@ -16,15 +16,15 @@
     $(window).scroll(function () {
         if ($(window).width() < 992) {
             if ($(this).scrollTop() > 55) {
-                $('.fixed-top').addClass('shadow');
+                $('.fixed-top').addClass('shadow').css('position','relative');
             } else {
-                $('.fixed-top').removeClass('shadow');
+                $('.fixed-top').removeClass('shadow').css('position', 'fixed');
             }
         } else {
             if ($(this).scrollTop() > 55) {
-                $('.fixed-top').addClass('shadow').css('top', -55);
+                $('.fixed-top').addClass('shadow').css('top', -55).css('position', 'fixed');;
             } else {
-                $('.fixed-top').removeClass('shadow').css('top', 0);
+                $('.fixed-top').removeClass('shadow').css('top', 0).css('position', 'relative');
             }
         } 
     });

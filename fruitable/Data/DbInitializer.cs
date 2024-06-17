@@ -25,7 +25,9 @@ namespace Fruitable.Data
             var adminUser = new ApplicationUser
             {
                 UserName = "admin@admin.com",
+                FirstName = "Admin",
                 Email = "admin@admin.com",
+                LastName ="1",
                 EmailConfirmed = true
             };
 

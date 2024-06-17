@@ -313,17 +313,25 @@
     <div id="content" style="top:20vh;">
         <form asp-action="Login" method="post">
             <h1>Login Form</h1>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div>
-                <input type="text" placeholder="Username" required="" id="username" />
+                <input asp-for="Email" type="text" placeholder="Username" required="" id="username" value="@Model.Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div>
-                <input type="password" placeholder="Password" required="" id="password" />
+                <input asp-for="Password" type="password" placeholder="Password" required="" id="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div>
+                <input asp-for="RememberMe" type="checkbox" />
+                <label asp-for="RememberMe">Remember Me</label>
             </div>
             <div>
                 <input type="submit" value="Log in" />
                 <a href="#">Lost your password?</a>
-                <a asp-controller="account" asp-action="register">Register</a>
+                <a asp-controller="Account" asp-action="Register">Register</a>
             </div>
         </form><!-- form -->
     </div>
 </div>
+
