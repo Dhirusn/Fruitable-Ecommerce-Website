@@ -7,5 +7,7 @@
         public DateTime PaymentDate { get; set; }
         public string PaymentMethod { get; set; }
         public Orders Order { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
     }
 }

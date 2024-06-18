@@ -7,6 +7,6 @@
         public ApplicationUser User { get; set; }
         public ICollection<WishlistItems> WishlistItems { get; set; }
         public DateTime CreatedOn { get; set; }
-        public DateTime UpdatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
     }
 }

@@ -18,5 +18,7 @@ namespace Fruitable.Models
 
         public ICollection<Payments> Payments { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
     }
 }

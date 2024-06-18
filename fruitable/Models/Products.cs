@@ -23,5 +23,7 @@ namespace Fruitable.Models
         public string ImageURL { get; set; }
 
         public Categories Category { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
     }
 }
