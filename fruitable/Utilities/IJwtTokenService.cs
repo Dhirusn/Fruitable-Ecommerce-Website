@@ -1,16 +1,20 @@
-﻿
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Fruitable.Repositry.JWT
+namespace Fruitable.Utilities
 {
-    public class JwtTokenRepository : IJwtTokenRepository
+    public interface IJwtTokenService
+    {
+        Task<string> GenerateTokenAsync(string username, IEnumerable<string> roles);
+    }
+
+    public class JwtTokenService : IJwtTokenService
     {
         private readonly IConfiguration _configuration;
 
-        public JwtTokenRepository(IConfiguration configuration)
+        public JwtTokenService(IConfiguration configuration)
         {
             _configuration = configuration;
         }

@@ -25,30 +25,26 @@
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
     @* Check if the current page is not a specific one, e.g., Register or Login *@
     @{
         var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
         var hideHeaderAndFooter = (currentController == "Account" && (currentAction == "Register" || currentAction == "Login" || currentAction == "ConfirmEmail"));
     }
-
     @if (!hideHeaderAndFooter)
     {
         @Html.Partial("_Header")
     }
-    </header>
     <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
     @if (!hideHeaderAndFooter)
     {
         @Html.Partial("_Footer")
     }
-    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/easing/easing.min.js"></script>
@@ -57,7 +53,9 @@
     <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
+    <!-- Render the Login Modal View Component -->
 
+    @await Component.InvokeAsync("LoginModal")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

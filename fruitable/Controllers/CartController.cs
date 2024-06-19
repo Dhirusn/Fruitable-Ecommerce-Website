@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace fruitable.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         public IActionResult Index()
@@ -12,6 +14,10 @@ namespace fruitable.Controllers
         public IActionResult Checkout()
         {
             return View();
+        }
+        public IActionResult AddToCart(int productId, int quantity)
+        {
+            return Json(new { success = true, message = "Product added to cart successfully!" });
         }
     }
 }

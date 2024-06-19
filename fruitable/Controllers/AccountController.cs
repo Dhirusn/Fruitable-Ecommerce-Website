@@ -1,12 +1,10 @@
 ﻿using Fruitable.Models;
 using Fruitable.Repositry.Account;
 using Fruitable.Repositry.Email;
-using Fruitable.Repositry.JWT;
+using Fruitable.Utilities;
 using Fruitable.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Data;
 
 namespace Fruitable.Controllers
 {
@@ -16,19 +14,19 @@ namespace Fruitable.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAccountRepository _accountRepository;
         private readonly IEmailRepositry _emailRepositry;
-        private readonly IJwtTokenRepository _jwtTokenRepository;
+        private readonly IJwtTokenService _jwtTokenService;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                  SignInManager<ApplicationUser> signInManager,
                                  IAccountRepository accountRepository,
                                  IEmailRepositry emailRepositry,
-                                 IJwtTokenRepository jwtTokenRepository)
+                                 IJwtTokenService jwtTokenRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _accountRepository = accountRepository;
             _emailRepositry = emailRepositry;
-            _jwtTokenRepository = jwtTokenRepository;
+            _jwtTokenService = jwtTokenRepository;
         }
 
         [HttpGet]
@@ -67,11 +65,11 @@ namespace Fruitable.Controllers
                 return RedirectToAction("ConfirmEmail", "Account");
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName!, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
                 var roles = await _userManager.GetRolesAsync(user);
-                var token = await _jwtTokenRepository.GenerateTokenAsync(user.UserName, roles);
+                var token = await _jwtTokenService.GenerateTokenAsync(user.UserName!, roles);
 
                 HttpContext.Session.SetString("jwt", token);
 

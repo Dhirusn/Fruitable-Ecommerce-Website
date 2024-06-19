@@ -1,3 +1,4 @@
+using Fruitable.Repositry.Home;
 using Fruitable.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,15 +8,20 @@ namespace fruitable.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public readonly IHomeRepositry _homeRepositry;
+        public HomeController(ILogger<HomeController> logger,IHomeRepositry homeRepositry)
         {
             _logger = logger;
+            _homeRepositry = homeRepositry;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var latestProductList =await _homeRepositry.GetLatestProductDetailViewModelsAsync();
+            var topSellerProductList = await _homeRepositry.GetTopSellerProductDetailViewModelsAsync();
+            var bestRatedProductList = await _homeRepositry.GetBestRatedProductDetailViewModelsAsync();
+            var model = Tuple.Create(latestProductList,topSellerProductList,bestRatedProductList);
+            return View(model);
         }
 
         public IActionResult Privacy()

@@ -2,8 +2,10 @@
 using Fruitable.Models;
 using Fruitable.Repositry.Account;
 using Fruitable.Repositry.Email;
-using Fruitable.Repositry.JWT;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Fruitable.Repositry.Home;
+using Fruitable.Repositry.Shop;
+using Fruitable.Utilities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,16 +22,16 @@ namespace Fruitable.Extensions
 
             builder.Services
                 .AddDbContext<ApplicationDbContext>(options =>
-                            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             // Configure Identity services
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<ApplicationDbContext>()
-                            .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             // Configure application cookie
             builder.Services.ConfigureApplicationCookie(options =>
             {
-                // Cookie settings
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.LoginPath = "/Account/Login";
@@ -38,33 +40,34 @@ namespace Fruitable.Extensions
             });
 
             // Configure JWT authentication
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
-                };
-            });
-           
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                            .AddCookie()
+                            .AddJwtBearer(options =>
+                            {
+                                options.TokenValidationParameters = new TokenValidationParameters
+                                {
+                                    ValidateIssuer = true,
+                                    ValidateAudience = true,
+                                    ValidateLifetime = true,
+                                    ValidateIssuerSigningKey = true,
+                                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+                                };
+                            });
 
             builder.Services.AddScoped<IEmailRepositry, EmailRepositry>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-            builder.Services.AddScoped<IJwtTokenRepository, JwtTokenRepository>();
-
-            
+            builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+            builder.Services.AddScoped<IShopRepositry, ShopRepositry>();
+            builder.Services.AddScoped<IHomeRepositry, HomeRepositry>();
 
             builder.Services.AddSession();
+        }
+
+        public static bool IsAjaxRequest(HttpRequest request)
+        {
+            return request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
     }
 }

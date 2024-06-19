@@ -1,10 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Fruitable.Repositry.Shop;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fruitable.Controllers
 {
     public class ShopController : Controller
     {
+        public readonly IShopRepositry _shopRepositry;
+        public ShopController(IShopRepositry shopRepositry)
+        {
+            _shopRepositry = shopRepositry;
+        }
+
         // GET: ShopController
         public ActionResult Index()
         {
@@ -12,9 +19,10 @@ namespace fruitable.Controllers
         }
 
         // GET: ShopController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            var result = await _shopRepositry.GetProductDetails(id);
+            return View(result);
         }
 
         // GET: ShopController/Create

@@ -13,21 +13,32 @@
 
 
     // Fixed Navbar
+    $('.fixed-top').css('position', 'relative');
+
     $(window).scroll(function () {
         if ($(window).width() < 992) {
             if ($(this).scrollTop() > 55) {
-                $('.fixed-top').addClass('shadow').css('position','relative');
+                $('.fixed-top').addClass('shadow');
             } else {
-                $('.fixed-top').removeClass('shadow').css('position', 'fixed');
+                $('.fixed-top').removeClass('shadow');
             }
         } else {
             if ($(this).scrollTop() > 55) {
-                $('.fixed-top').addClass('shadow').css('top', -55).css('position', 'fixed');;
+                $('.fixed-top').addClass('shadow').css({
+                    'top': '0',
+                    'position': 'fixed'
+                });
             } else {
-                $('.fixed-top').removeClass('shadow').css('top', 0).css('position', 'relative');
+                $('.fixed-top').removeClass('shadow').css({
+                    'top': '0',
+                    'position': 'relative'
+                });
             }
-        } 
+        }
     });
+
+    // Trigger scroll event on page load to ensure the correct state
+    $(window).scroll();
     
     
    // Back to top button
@@ -148,4 +159,11 @@
     });
 
 })(jQuery);
+
+// Handle AJAX errors globally to detect unauthorized responses
+$(document).ajaxError(function (event, jqXHR, settings, thrownError) {
+    if (jqXHR.status === 401) {
+        $('#loginModal').modal('show');
+    }
+});
 
