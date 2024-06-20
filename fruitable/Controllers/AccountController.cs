@@ -1,4 +1,4 @@
-﻿using Fruitable.Models;
+﻿using Fruitable.Data.Models;
 using Fruitable.Repositry.Account;
 using Fruitable.Repositry.Email;
 using Fruitable.Utilities;

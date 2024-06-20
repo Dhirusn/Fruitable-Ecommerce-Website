@@ -1,4 +1,4 @@
-﻿using Fruitable.Models;
+﻿using Fruitable.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,6 @@
-﻿using Fruitable.Models;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Net;
+using Fruitable.Data.Models;
 
 namespace Fruitable.Repositry.Email
 {

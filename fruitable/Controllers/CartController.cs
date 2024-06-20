@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Fruitable.Repositry.Cart;
+using Fruitable.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fruitable.Controllers
@@ -6,18 +8,33 @@ namespace fruitable.Controllers
     [Authorize]
     public class CartController : Controller
     {
-        public IActionResult Index()
+        public readonly ICartRepositry _cartRepositry;
+        public CartController(ICartRepositry cartRepositry)
         {
-            return View();
+            _cartRepositry = cartRepositry;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var result = await _cartRepositry.GetCurrentUserCartItemList();
+            return View(result.Data);
         }
 
         public IActionResult Checkout()
         {
             return View();
         }
-        public IActionResult AddToCart(int productId, int quantity)
+
+        public async Task<IActionResult> AddToCart(int productId, int quantity)
         {
-            return Json(new { success = true, message = "Product added to cart successfully!" });
+            var result = await _cartRepositry.AddToCart(productId, quantity);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
     }
 }

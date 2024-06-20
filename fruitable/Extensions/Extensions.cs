@@ -1,6 +1,7 @@
 ﻿using fruitable.Data;
-using Fruitable.Models;
+using Fruitable.Data.Models;
 using Fruitable.Repositry.Account;
+using Fruitable.Repositry.Cart;
 using Fruitable.Repositry.Email;
 using Fruitable.Repositry.Home;
 using Fruitable.Repositry.Shop;
@@ -61,6 +62,11 @@ namespace Fruitable.Extensions
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
             builder.Services.AddScoped<IShopRepositry, ShopRepositry>();
             builder.Services.AddScoped<IHomeRepositry, HomeRepositry>();
+            builder.Services.AddScoped<ICartRepositry, CartRepositry>();
+            builder.Services.AddHttpContextAccessor();
+
+            // Register ConfigurationHelper as a service
+            builder.Services.AddScoped<ConfigurationHelper>();
 
             builder.Services.AddSession();
         }

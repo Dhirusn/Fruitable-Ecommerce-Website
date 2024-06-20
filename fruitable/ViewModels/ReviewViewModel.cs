@@ -1,5 +1,4 @@
-﻿using Fruitable.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using Fruitable.Data.Models;
 
 namespace Fruitable.ViewModels
 {
@@ -7,7 +6,7 @@ namespace Fruitable.ViewModels
     {
         public string Id { get; set; }
         public int ProductID { get; set; }
-        public Products Product { get; set; }
+        public Product Product { get; set; }
         public ApplicationUser User { get; set; }
         public int Rating { get; set; }
         public string Comment { get; set; }

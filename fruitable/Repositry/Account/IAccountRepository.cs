@@ -1,6 +1,4 @@
-﻿using Fruitable.Models;
-
-namespace Fruitable.Repositry.Account
+﻿namespace Fruitable.Repositry.Account
 {
     public interface IAccountRepository
     {

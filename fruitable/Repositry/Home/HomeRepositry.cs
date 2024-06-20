@@ -1,7 +1,6 @@
 ﻿using fruitable.Data;
 using Fruitable.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Fruitable.Repositry.Home
 {
@@ -25,7 +24,7 @@ namespace Fruitable.Repositry.Home
                     Description = x.Description,
                     Price = x.Price,
                     ProductName = x.Name,
-                    ReviewCount = _context.Reviews.Count(y => y.ProductID == x.Id),
+                    ReviewCount = _context.Reviews.Count(y => y.ProductId == x.Id),
                 }).Take(8).ToListAsync();
             }
             catch (Exception ex)
@@ -44,11 +43,11 @@ namespace Fruitable.Repositry.Home
                 result = await _context.Products.Select(x => new ProductDetailViewModel
                 {
                     Id = x.Id,
-                    Category = x.Category!.Name,
+                //    Category = x.Category!.Name,
                     Description = x.Description,
                     Price = x.Price,
                     ProductName = x.Name,
-                    ReviewCount = _context.Reviews.Count(y => y.ProductID == x.Id),
+                    ReviewCount = _context.Reviews.Count(y => y.ProductId == x.Id),
                 }).Take(8).ToListAsync();
             }
             catch (Exception ex)
@@ -67,11 +66,11 @@ namespace Fruitable.Repositry.Home
                 result = await _context.Products.Select(x => new ProductDetailViewModel
                 {
                     Id = x.Id,
-                    Category = x.Category!.Name,
+                 //   Category = x.Category!.Name,
                     Description = x.Description,
                     Price = x.Price,
                     ProductName = x.Name,
-                    ReviewCount = _context.Reviews.Count(y => y.ProductID == x.Id),
+                    ReviewCount = _context.Reviews.Count(y => y.ProductId == x.Id),
                 }).Take(10).ToListAsync();
             }
             catch (Exception ex)

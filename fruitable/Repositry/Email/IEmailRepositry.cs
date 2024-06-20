@@ -1,4 +1,4 @@
-﻿using Fruitable.Models;
+﻿using Fruitable.Data.Models;
 
 namespace Fruitable.Repositry.Email
 {

@@ -1,4 +1,5 @@
-﻿@*
+﻿@using Fruitable.ViewModels
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -142,7 +143,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                @foreach (var review in Model.Reviews!)
+                                @foreach (var review in Model.Reviews ?? new List<ReviewViewModel>())
                                 {
                                     <div class="d-flex">
                                         <img src="~/img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
@@ -506,19 +507,28 @@
         $.ajax({
             url: '@Url.Action("AddToCart", "Cart")',
             type: 'POST',
-            data: {
-                productId: productId,
-                quantity: quantity
-            },
+            data: { productId: productId, quantity: quantity },
             success: function (response) {
                 if (response.success) {
-                    alert(response.message);
+                    // Show success message using SweetAlert
+                    swal({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 } else {
-                    alert('There was an error adding the product to the cart.');
+                    // Show error message using SweetAlert
+                    swal({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message
+                    });
                 }
             },
-            error: function (error) {
-                console.log(error);
+            error: function () {
+                // Show generic error message using SweetAlert
             }
         });
     }

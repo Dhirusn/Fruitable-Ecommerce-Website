@@ -21,9 +21,9 @@ namespace Fruitable.Repositry.Shop
 
                 if (product != null)
                 {
-                    var review = _context.Reviews.Where(x=>x.ProductID == productId).Select(x => new ReviewViewModel
+                    var review = _context.Reviews.Where(x=>x.ProductId == productId).Select(x => new ReviewViewModel
                     {
-                        ProductID = x.ProductID,
+                        ProductID = x.ProductId,
                         Comment = x.Comment,
                         CreatedOn = x.CreatedOn,
                         ModifiedOn = x.ModifiedOn,
@@ -36,7 +36,7 @@ namespace Fruitable.Repositry.Shop
                     result.ProductName = product.Name;
                     result.Price = product.Price;
                     result.Description = product.Description;
-                    // result.Category = product.Category!.Name!;
+                    result.Category = product.Category?.Name ?? "Unknown";
 
                     result.Reviews = review;
                 }
